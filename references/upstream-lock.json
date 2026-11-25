@@ -1,0 +1,30 @@
+{
+  "recorded_date": "2026-11-18",
+  "project_root": ".",
+  "repositories": [
+    {
+      "name": "universal-examprep-skill",
+      "origin": "https://github.com/ZeKaiNie/universal-examprep-skill.git",
+      "commit": "e01d2f7647b0917172ae8ad5fb788b404e977cae",
+      "path": "references/universal-examprep-skill",
+      "reviewed_component": "skills/universal-exam-cram-coach",
+      "declared_version": "5.3",
+      "declared_license": "MIT",
+      "license_file": "references/universal-examprep-skill/LICENSE",
+      "clone_method": "git clone --depth 1",
+      "upstream_code_modified": false
+    },
+    {
+      "name": "lecture-to-notes",
+      "origin": "https://github.com/drpwchen/lecture-to-notes.git",
+      "commit": "6f58fe20d945104916301a48c8b37fa7e5ee44f3",
+      "path": "references/lecture-to-notes",
+      "reviewed_component": "transcript import and transcription scripts",
+      "declared_version": "0.11.1",
+      "declared_license": "MIT",
+      "license_file": "references/lecture-to-notes/LICENSE",
+      "clone_method": "git clone --depth 1",
+      "upstream_code_modified": false
+    }
+  ]
+}

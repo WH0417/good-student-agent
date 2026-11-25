@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="no-referrer">
+  <title>好学生 · 期末复习工作台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%230f8c89'/%3E%3Cpath d='M10 11h8l3 4 3-4h6v19h-8l-3-3-3 3h-6z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/vendor/mermaid.min.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="工作台导航">
+      <a class="brand" href="#overview" aria-label="好学生复习工作台首页">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5.5c3-1 6-1 9 1.5 3-2.5 6-2.5 9-1.5v14c-3-1-6-1-9 1.5-3-2.5-6-2.5-9-1.5zM12 7v14"/></svg></span>
+        <span><strong>好学生</strong><small>把复习，变得有章可循</small></span>
+      </a>
+      <div class="course-switcher">
+        <label class="eyebrow" for="course-select">我的课程</label>
+        <div class="course-select-row"><select id="course-select" aria-label="选择课程"><option>正在加载课程…</option></select><button id="new-course" class="icon-button" title="新建课程" aria-label="新建课程">+</button></div>
+      </div>
+      <nav id="navigation" class="navigation" aria-label="课程模块"></nav>
+      <div class="sidebar-bottom"><span class="local-indicator"></span><span>本地学习空间</span><small>资料、进度和错题持续留存</small></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb"><span>学习空间</span><span aria-hidden="true">/</span><strong id="breadcrumb-course">我的课程</strong></div>
+        <form id="search-form" class="global-search" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="global-search" type="search" placeholder="搜索知识点、章节、重点…" autocomplete="off" aria-label="搜索当前课程"><kbd>Enter</kbd></form>
+        <button id="refresh-button" class="icon-button refresh-button" title="刷新课程" aria-label="刷新课程">↻</button>
+      </header>
+      <main id="main" tabindex="-1">
+        <div class="loading-screen"><div class="spinner"></div><p>正在打开学习空间…</p></div>
+      </main>
+      <footer class="workspace-footer"><span>好学生 · 让每一轮复习都有积累</span><span id="connection-state">正在连接本地服务</span></footer>
+    </div>
+  </div>
+  <dialog id="course-dialog" aria-labelledby="dialog-title">
+    <form id="course-form" class="dialog-body">
+      <div class="section-heading"><div><p class="eyebrow">新的开始</p><h2 id="dialog-title">添加一门课程</h2></div><button id="close-dialog" type="button" class="icon-button" aria-label="关闭">×</button></div>
+      <label class="field-label" for="new-course-name">课程名称</label><input id="new-course-name" name="name" placeholder="例如：数据结构与算法" maxlength="120" required autocomplete="off">
+      <label class="field-label" for="new-course-mode">这次复习的目标</label><select id="new-course-mode" name="mode"><option value="high">高分模式 · 系统理解，充分练习</option><option value="pass">速通模式 · 先学重点，高效过关</option></select>
+      <div class="form-grid"><label>卷面满分<input name="score_max" type="number" min="1" step="any" value="100" required></label><label>卷面及格线<input name="passing_score" type="number" min="1" step="any" value="60" required></label></div>
+      <p id="course-form-error" class="error-text" role="alert"></p>
+      <div class="dialog-actions"><button type="button" id="cancel-course" class="button secondary">取消</button><button type="submit" class="button primary">创建课程</button></div>
+    </form>
+  </dialog>
+  <dialog id="consent-dialog" aria-labelledby="consent-title">
+    <div class="dialog-body">
+      <p class="eyebrow">由你确认的资料处理</p>
+      <h2 id="consent-title">允许 Codex 处理本课程资料？</h2>
+      <p class="consent-description">使用已登录 Codex（OpenAI）分析本课程选中资料及必要学习记录。</p>
+      <div id="consent-scope" class="consent-scope"></div>
+      <p class="settings-description">仅记住本课程这些资料；新增资料或换课程需再次确认。</p>
+      <p id="consent-error" class="error-text" role="alert"></p>
+      <div class="dialog-actions"><button id="consent-later" type="button" class="button secondary">暂不授权</button><button id="consent-allow" type="button" class="button primary">允许并开始</button></div>
+    </div>
+  </dialog>
+  <dialog id="revoke-consent-dialog" aria-labelledby="revoke-consent-title">
+    <div class="dialog-body">
+      <p class="eyebrow">本课程的 Codex 授权</p>
+      <h2 id="revoke-consent-title">撤销本课程授权？</h2>
+      <p id="revoke-consent-description" class="consent-description"></p>
+      <p class="settings-description">撤销后，后续 Codex 处理需要重新授权。</p>
+      <p id="revoke-consent-error" class="error-text" role="alert"></p>
+      <div class="dialog-actions"><button id="revoke-consent-cancel" type="button" class="button secondary">保留授权</button><button id="revoke-consent-confirm" type="button" class="button danger">撤销授权</button></div>
+    </div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

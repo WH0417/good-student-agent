@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+.venv/
+.runtime/
+.media-models/
+data/
+audit/runs/
+build/
+dist/
+*.egg-info/
+
+# Local-only artifacts and credentials
+/audit/
+/references/lecture-to-notes/
+/references/universal-examprep-skill/
+.env
+.env.*
+!.env.example
